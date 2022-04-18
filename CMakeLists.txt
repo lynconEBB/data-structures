@@ -33,10 +33,15 @@ target_include_directories(Queue PUBLIC Queue/)
 add_library(Stack STATIC Stack/Stack.c)
 target_include_directories(Stack PUBLIC Stack/)
 
+add_library(HashTable STATIC HashTable/simple/simple.c HashTable/linearProbe/linearProbe.c)
+target_include_directories(HashTable PUBLIC HashTable/)
+
+add_library(BinaryTree STATIC BinaryTree/BinaryTree.c)
+target_include_directories(BinaryTree PUBLIC BinaryTree/)
 #StandAlone
 add_executable(Expressions Standalone/arithmeticExpression.c)
 add_executable(Recursion Standalone/recursion.c)
 
 #Main
 add_executable(Main main.c)
-target_link_libraries(Main PUBLIC LinkedList)
+target_link_libraries(Main PUBLIC BinaryTree)
