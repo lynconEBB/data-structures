@@ -5,21 +5,6 @@ int isEmpty(Stack *s) {
     return (s == NULL);
 }
 
-Stack *push(Stack *s, int data) {
-    Stack *head = malloc(sizeof(Stack));
-    head->data = data;
-    head->next = s;
-    return head;
-}
-
-Stack *pop(Stack *s) {
-    if (!isEmpty(s)) {
-        Stack *toBeDeleted = s;
-        s = s->next;
-        free(toBeDeleted);
-    }
-    return s;
-}
 
 int empty(Tree t) {
     return (t == NULL);
@@ -217,7 +202,10 @@ int sum(Tree t) {
     if (empty(t))
         return 0;
 
-    return t->info + sum(t->left) + sum(t->right);
+    int lsum = sum(t->left);
+    int rsum = sum(t->right);
+
+    return t->info + lsum + rsum;
 }
 
 int isFull(Tree t, int* leafLevel, int currentLevel){
@@ -232,7 +220,10 @@ int isFull(Tree t, int* leafLevel, int currentLevel){
         return *leafLevel == currentLevel;
     }
 
-    return (isFull(t->left, leafLevel, currentLevel+1) && isFull(t->right,leafLevel, currentLevel + 1));
+    int lResult = isFull(t->left, leafLevel, currentLevel+1);
+    int rResult = isFull(t->right,leafLevel, currentLevel+1);
+
+    return lResult && rResult;
 }
 
 int isBinary(Tree t) {
@@ -245,9 +236,73 @@ int isBinary(Tree t) {
     if (empty(t->left) || empty(t->right))
         return 0;
 
-    return (isBinary(t->left) && isBinary(t->right));
+    int lResult = isBinary(t->left);
+    int rResult = isBinary(t->right);
+
+    return lResult && rResult;
+}
+
+void printLevel(Tree t, int level) {
+    if (empty(t))
+        return;
+    if (level == 0) {
+        printf("%d ", t->info);
+    }
+
+    printLevel(t->left,level-1);
+    printLevel(t->right,level-1);
 }
 
 void printByLevel(Tree t) {
+    for (int i = 0; i < height(t);i++) {
+        printLevel(t, i);
+    }
+}
 
+
+int next(Tree t, int info) {
+    if (empty(t))
+        return -1;
+
+    if (t->info > info) {
+        int result = next(t->left, info);
+        if (result == -1 || t->info < result)
+            return t->info;
+        else
+            return result;
+    } else if (t->info < info) {
+        return next(t->right,info);
+    }
+
+    Tree t2 = rec_min(t->right);
+    if(empty(t2)) {
+        return -1;
+    } else {
+        return t2->info;
+    }
+}
+
+void interval(Tree t, int a, int b) {
+    if (!empty(t)) {
+        if (t->info > a)
+            interval(t->left, a, b);
+        if (t->info > a && t->info < b) {
+            printf("%d ", t->info);
+        }
+        if (t->info < b)
+            interval(t->right,a,b);
+    }
+}
+
+int countLeafs(Tree t) {
+    if (empty(t))
+        return 0;
+
+    if (empty(t->right) && empty(t->left))
+        return 1;
+
+    int lCount = countLeafs(t->left);
+    int rCount = countLeafs(t->right);
+
+    return lCount + rCount;
 }

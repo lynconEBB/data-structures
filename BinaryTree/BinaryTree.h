@@ -50,4 +50,10 @@ int height(Tree t);
 int sum(Tree t);
 
 int isFull(Tree t,int* level, int currentLevel);
+
+int next(Tree t, int info);
+
+void interval(Tree t, int a, int b);
+
+int countLeafs(Tree t);
 #endif
