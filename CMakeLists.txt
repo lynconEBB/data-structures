@@ -36,12 +36,19 @@ target_include_directories(Stack PUBLIC Stack/)
 add_library(HashTable STATIC HashTable/simple/simple.c HashTable/linearProbe/linearProbe.c)
 target_include_directories(HashTable PUBLIC HashTable/)
 
-add_library(BinaryTree STATIC BinaryTree/BinaryTree.c)
+add_library(BinaryTree STATIC BinaryTree/BinaryTree.c TrieTree/TrieTree.c TrieTree/TrieTree.h)
 target_include_directories(BinaryTree PUBLIC BinaryTree/)
+
+add_library(BTree STATIC BTree/Tree23.c BTree/Tree23.h BTree/BTree.c BTree/BTree.h)
+target_include_directories(BTree PUBLIC BTree/)
+
+add_library(TrieTree STATIC TrieTree/TrieTree.c)
+target_include_directories(TrieTree PUBLIC TrieTree/)
+
 #StandAlone
 add_executable(Expressions Standalone/arithmeticExpression.c)
 add_executable(Recursion Standalone/recursion.c)
 
 #Main
 add_executable(Main main.c)
-target_link_libraries(Main PUBLIC BinaryTree)
+target_link_libraries(Main PUBLIC TrieTree)

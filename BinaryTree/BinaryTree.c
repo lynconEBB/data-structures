@@ -7,7 +7,6 @@ int isEmpty(Stack *s) {
 
 Stack *push(Stack *s, int data) {
     Stack *head = malloc(sizeof(Stack));
-    head->data = data;
     head->next = s;
     return head;
 }
